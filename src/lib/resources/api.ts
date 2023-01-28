@@ -9,10 +9,10 @@ export const api = axios.create({
 const EMPTY_ARRAY = Object.freeze([]);
 const EMPTY_OBJECT = Object.freeze({});
 
-export const getProductsByCategory = (categoryId: number, page: number, size: number): Promise<Product[]> =>
+export const getProductsByCategory = (categoryId: number): Promise<Product[]> =>
 	api
-		.get(`/v1/products/list/?category=${categoryId}&size=${size}&page=${page}`)
-		.then((res) => res.data.items)
+		.get(`/products?categoryId=${categoryId}`)
+		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);
 			return EMPTY_ARRAY;
@@ -21,7 +21,7 @@ export const getProductsByCategory = (categoryId: number, page: number, size: nu
 type GetCategoriesResult = Record<string, Category>;
 export const getCategories = async () =>
 	api
-		.get<GetCategoriesResult>('/v1/category')
+		.get<GetCategoriesResult>('/categories')
 		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);
@@ -54,10 +54,7 @@ export const addToCart = (productId: number, userId: number) =>
 
 export const setCartItemCount = async (productId: number, count: number) =>
 	api
-		.post(
-			'/v1/cart/set',
-			{ product_id: productId, count }
-		)
+		.post('/v1/cart/set', { product_id: productId, count })
 		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);
@@ -81,4 +78,3 @@ export const getCart = () =>
 			console.error(err);
 			return EMPTY_OBJECT;
 		});
-

@@ -10,16 +10,14 @@ const config = {
 	],
 
 	kit: {
-		adapter: adapter(
-			{ out: './build' }
-		),
+		adapter: adapter({ out: './build' }),
 		files: {
-			lib: 'src/lib',
+			lib: 'src/lib'
 		},
 		alias: {
-			shared: '../shared',
+			shared: '../shared'
 		}
-	},
+	}
 };
 
 export default config;

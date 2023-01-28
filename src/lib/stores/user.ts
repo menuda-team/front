@@ -1,15 +1,15 @@
 import type { User } from '$lib/types';
-import { get, writable } from "svelte/store";
+import { get, writable } from 'svelte/store';
 
 const user = writable<User>({
-  id: null
+	id: null
 });
 
 export const setUserId = (userId: number) => {
-  user.set({
-    id: userId,
-  })
-}
+	user.set({
+		id: userId
+	});
+};
 
 export const getUserId = () => get(user).id;
 

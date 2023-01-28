@@ -33,7 +33,7 @@ export const handleSetCartItemCount = async (productId: number, count: number) =
 			if (cartItem) {
 				setCartItem(cartItem);
 			} else {
-				removeFromCartStore(productId)
+				removeFromCartStore(productId);
 			}
 		}
 	} catch (err) {

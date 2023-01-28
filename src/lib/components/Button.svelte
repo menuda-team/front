@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
 	export let onClick = null;
 	export let type: 'action' | 'default' | 'danger' | 'disabled' = 'default';
 	export let size: 's' | 'm' = 's';
@@ -31,14 +31,14 @@
 	}
 </script>
 
-<button class={`
+<button
+	class={`
 				rounded w-full
 				${classes}
 				${backgroundCssClass}
-				${heightCssClass}`
-				}
-				disabled={type === 'disabled'}
-				on:click={onClick}
+				${heightCssClass}`}
+	disabled={type === 'disabled'}
+	on:click={onClick}
 >
 	<slot />
 </button>

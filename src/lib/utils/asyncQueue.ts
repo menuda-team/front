@@ -1,8 +1,8 @@
 type OnProcessTools = {
 	lock: () => void;
 	unlock: () => void;
-}
-type OnProcess = (arg: any, tools: OnProcessTools) =>  any;
+};
+type OnProcess = (arg: any, tools: OnProcessTools) => any;
 
 class AsyncQueue {
 	channelsCount: number;
@@ -59,7 +59,7 @@ class AsyncQueue {
 			}
 		} catch (err) {
 			if (this.onFailure) {
-				this.onFailure((err as Error).message, task)
+				this.onFailure((err as Error).message, task);
 			}
 		}
 		this.channelsCount--;

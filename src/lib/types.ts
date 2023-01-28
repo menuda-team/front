@@ -1,12 +1,12 @@
 export type Product = {
 	name: string;
 	id: number;
-	ImageUrl: string;
+	imageUrl: string;
 	weight: number;
 	price: number;
 	available: boolean;
 	description?: string;
-	sale_price?: number;
+	salePrice?: number;
 	category?: string;
 };
 
@@ -29,4 +29,4 @@ export type User = {
 export type Category = {
 	id: number;
 	count: number;
-}
+};

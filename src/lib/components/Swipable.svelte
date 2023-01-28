@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
 	import { slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
 
@@ -53,7 +53,7 @@
 	on:touchend={onTouchEnd}
 	on:touchmove={onTouchMove}
 	on:touchstart={onTouchStart}
-	out:slide>
-	<slot></slot>
+	out:slide
+>
+	<slot />
 </div>
-

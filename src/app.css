@@ -5,15 +5,15 @@
 @tailwind utilities;
 
 @layer base {
-    html {
-        font-family: 'Roboto';
-        -webkit-tap-highlight-color: transparent;
-    }
+	html {
+		font-family: 'Roboto';
+		-webkit-tap-highlight-color: transparent;
+	}
 
-    ::-webkit-scrollbar {
-        width: 0px;
-        background: transparent;
-        -webkit-appearance: none;
-        display: none;
-    }
+	::-webkit-scrollbar {
+		width: 0px;
+		background: transparent;
+		-webkit-appearance: none;
+		display: none;
+	}
 }

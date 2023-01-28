@@ -15,18 +15,18 @@
 	let intersectionObserverSupport = false;
 
 	function intersectPercent(entries) {
-		entries.forEach(entry => {
+		entries.forEach((entry) => {
 			// процент площади экрана, который занимает element
-			percent = Math.round(Math.ceil(entry.intersectionRect.height / entry.rootBounds?.height * 100))
+			percent = Math.round(Math.ceil((entry.intersectionRect.height / entry.rootBounds?.height) * 100));
 		});
 	}
 
 	function stepsToThreshold(steps) {
-		return [...Array(steps).keys()].map(n => n / steps);
+		return [...Array(steps).keys()].map((n) => n / steps);
 	}
 
 	onMount(async () => {
-		await new Promise(res => setTimeout(res, 100));
+		await new Promise((res) => setTimeout(res, 100));
 		intersectionObserverSupport =
 			'IntersectionObserver' in window &&
 			'IntersectionObserverEntry' in window &&
@@ -34,7 +34,7 @@
 
 		const options = {
 			rootMargin: `${top}px ${right}px ${bottom}px ${left}px`,
-			threshold: stepsToThreshold(steps),
+			threshold: stepsToThreshold(steps)
 		};
 
 		if (intersectionObserverSupport) {

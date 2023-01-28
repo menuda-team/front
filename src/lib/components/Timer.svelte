@@ -1,17 +1,17 @@
 <script>
-  import { onMount } from 'svelte';
+	import { onMount } from 'svelte';
 
-  export let decrementer;
+	export let decrementer;
 
-  onMount(() => {
-    const interval = setInterval(() => {
-      decrementer();
-    }, 1000);
+	onMount(() => {
+		const interval = setInterval(() => {
+			decrementer();
+		}, 1000);
 
-    return () => {
-      clearInterval(interval);
-    };
-  });
+		return () => {
+			clearInterval(interval);
+		};
+	});
 </script>
 
-<slot/>
+<slot />
