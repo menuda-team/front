@@ -18,11 +18,22 @@ export const getProductsByCategory = (categoryId: number): Promise<Product[]> =>
 			return EMPTY_ARRAY;
 		});
 
-type GetCategoriesResult = Record<string, Category>;
+type GetCategoriesResult = Category[];
 export const getCategories = async () =>
 	api
 		.get<GetCategoriesResult>('/categories')
-		.then((res) => res.data)
+		.then((res) => [
+			{
+				name: 'Бургеры',
+				count: 3,
+				_id: 23
+			},
+			{
+				name: 'Напитки',
+				count: 4,
+				_id: 24
+			}
+		])
 		.catch((err) => {
 			console.error(err);
 			return EMPTY_OBJECT;

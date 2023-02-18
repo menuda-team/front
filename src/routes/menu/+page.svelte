@@ -200,7 +200,7 @@
 
 <div class="relative">
 	<CategoryCarousel
-		categories={Object.keys(data.categories)}
+		categories={data.categories.map(c => c.name)}
 		bind:scrollBar
 		bind:bubble
 		bind:carouselXPadding
@@ -208,12 +208,12 @@
 		on:carousel-click={carouselClickEventHandler}
 	/>
 	<div class="mt-[42px] pb-[40px]">
-		{#each Object.keys(data.categories) as categoryName}
-			<Visibility steps={100} let:percent let:unobserve name={categoryName}>
+		{#each data.categories as category}
+			<Visibility steps={100} let:percent let:unobserve name={category.name}>
 				<CategoryBlock
-					category={categoryName}
-					productsCount={data.categories[categoryName].count}
-					categoryId={data.categories[categoryName].id}
+					category={category.name}
+					productsCount={category.count}
+					categoryId={category._id}
 					isVisible={percent > VISIBILITY_PERCENT}
 					shouldLoadData={percent > LOAD_DATA_PERCENT}
 					{unobserve}

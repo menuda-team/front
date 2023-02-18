@@ -1,13 +1,13 @@
 export type Product = {
 	name: string;
-	id: number;
+	_id: string;
 	imageUrl: string;
 	weight: number;
 	price: number;
 	available: boolean;
 	description?: string;
 	salePrice?: number;
-	category?: string;
+	categories?: string[];
 };
 
 export type CartItem = {
@@ -27,6 +27,7 @@ export type User = {
 };
 
 export type Category = {
-	id: number;
+	_id: string;
+	name: string;
 	count: number;
 };
