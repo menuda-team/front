@@ -212,7 +212,7 @@
 			<Visibility steps={100} let:percent let:unobserve name={category.name}>
 				<CategoryBlock
 					category={category.name}
-					productsCount={category.count}
+					productsCount={category.productsCount}
 					categoryId={category._id}
 					isVisible={percent > VISIBILITY_PERCENT}
 					shouldLoadData={percent > LOAD_DATA_PERCENT}

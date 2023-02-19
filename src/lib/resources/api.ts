@@ -11,7 +11,7 @@ const EMPTY_OBJECT = Object.freeze({});
 
 export const getProductsByCategory = (categoryId: number): Promise<Product[]> =>
 	api
-		.get(`/products?categoryId=${categoryId}`)
+		.get(`/categories/${categoryId}/products`)
 		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);
@@ -21,19 +21,8 @@ export const getProductsByCategory = (categoryId: number): Promise<Product[]> =>
 type GetCategoriesResult = Category[];
 export const getCategories = async () =>
 	api
-		.get<GetCategoriesResult>('/categories')
-		.then((res) => [
-			{
-				name: 'Бургеры',
-				count: 3,
-				_id: 23
-			},
-			{
-				name: 'Напитки',
-				count: 4,
-				_id: 24
-			}
-		])
+		.get<GetCategoriesResult>('/categories/list')
+		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);
 			return EMPTY_OBJECT;

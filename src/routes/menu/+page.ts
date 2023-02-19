@@ -1,11 +1,11 @@
 import { error } from '@sveltejs/kit';
 import { getCategories } from '$lib/resources/api.js';
 import { handleFetchCart } from '$lib/handlers/cart';
-// import uploadProducts from '$lib/scripts/uploadProducts.js'
+import fillDb from '$lib/scripts/fillDb.js';
 
 export async function load() {
 	try {
-		// await uploadProducts();
+		// await fillDb();
 		const categories = await getCategories();
 		// await handleFetchCart();
 		return {

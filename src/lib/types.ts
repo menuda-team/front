@@ -29,5 +29,5 @@ export type User = {
 export type Category = {
 	_id: string;
 	name: string;
-	count: number;
+	productsCount: number;
 };
