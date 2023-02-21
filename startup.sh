@@ -1,3 +1,3 @@
 #!/bin/bash
-sudo PORT=443 node ./build/index.js
+sudo PORT=8080 node ./build/index.js
 EOF
