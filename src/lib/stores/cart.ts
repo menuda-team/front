@@ -23,7 +23,7 @@ export const setCartItem = (cartItem: CartItem) => {
 	});
 };
 
-export const removeFromCart = (productId: number) => {
+export const removeFromCart = (productId: string) => {
 	cart.update((cart) => {
 		const existedCartItem = cart.items.find((item) => item.product_id === productId);
 		if (existedCartItem) {
@@ -42,7 +42,7 @@ export const updateCartIfChanged = (updatedCart: Cart) => {
 	}
 };
 
-export const getCartItemByProductId = (id: number) => {
+export const getCartItemByProductId = (id: string) => {
 	const $cart = get(cart);
 	return $cart.items.find((item) => item.product_id === id);
 };

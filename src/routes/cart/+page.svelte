@@ -54,7 +54,7 @@
 							count,
 							price: product.price,
 							name: product.name,
-							sale_price: product.sale_price
+							sale_price: product.salePrice
 						})),
 						totalAmount: ($cart as Cart).totalAmount,
 						comment
@@ -62,7 +62,7 @@
 					userId: ($user as User).id
 				})
 			);
-			window.Telegram?.WebApp.close();
+			Telegram.WebApp.close();
 		} catch (err) {
 			console.log('onCartButtonClick error');
 			console.log(err.name + ': ' + err.message);
@@ -95,8 +95,7 @@
 			class="rounded bg-bg-gray dark:bg-dark-black2 w-full py-4 px-5
 										text-xbase placeholder:text-black3 dark:placeholder:text-dark-gray
 										focus:outline-none mb-10 resize-none dark:text-white"
-			bind:value={comment}
-		/>
+			bind:value={comment}></textarea>
 		<div class="fixed bottom-0 left-0 right-0">
 			<CartButton actionText="Оформить заказ" totalAmount={$cart.totalAmount} action={onCartButtonClick} />
 		</div>

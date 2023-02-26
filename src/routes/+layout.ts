@@ -1,9 +1,9 @@
 // TODO: настроить prettier
+import type { Load } from '@sveltejs/kit';
 import { redirect as _redirect } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 import { goto } from '$app/navigation';
 import { browser } from '$app/environment';
-// TODO: сделать так, чтобы внутри IDE работали переходы по $lib
 import { api, createUser, getIsRegistered } from '$lib/resources/api.js';
 import { getUserId as getUserIdFromStore, setUserId as setUserIdInStore } from '$lib/stores/user.js';
 
@@ -18,14 +18,13 @@ const redirect = async (location: string) => {
 	else throw _redirect(302, location);
 };
 
-export const load = async ({ url }) => {
+export const load: Load = async ({ url }) => {
 	const userIdFromStore = getUserIdFromStore();
 	const isAuth = !!userIdFromStore;
 
 	if (!isAuth) {
 		// const userId = url.searchParams.get("user_id");
-		// TODO: настроить тайпинги для телеграма
-		const userId = Telegram?.WebApp.initDataUnsafe.user.id;
+		const userId = Telegram?.WebApp.initDataUnsafe.user?.id;
 		if (!userId) {
 			throw await error(401, 'user_id is not found');
 		}

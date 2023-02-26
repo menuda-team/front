@@ -10,9 +10,9 @@
 	let isAdded = false;
 	let count = 1;
 	$: {
-		isAdded = ($cart as Cart).items.some((item) => item.product_id === product.id);
+		isAdded = ($cart as Cart).items.some((item) => item.product_id === product._id);
 		if (isAdded) {
-			count = ($cart as Cart).items.find((item) => item.product_id === product.id).count;
+			count = ($cart as Cart).items.find((item) => item.product_id === product._id).count;
 		}
 	}
 
@@ -22,7 +22,7 @@
 	let loading = false;
 	const onActionButtonClick = async () => {
 		loading = true;
-		await handleSetCartItemCount(product.id, count);
+		await handleSetCartItemCount(product._id, count);
 		loading = false;
 
 		closeProductCard();

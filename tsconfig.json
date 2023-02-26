@@ -8,6 +8,14 @@
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
-		"strict": true
-	}
+		"strict": true,
+		"paths": {
+			"$lib":["./src/lib"],
+			"$lib/*":["./src/lib/*"]
+		},
+		"typeRoots": [
+			"./node_modules/@types",
+			"./node_modules/telegram-webapps-types"
+		]
+	},
 }

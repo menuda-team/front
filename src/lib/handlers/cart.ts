@@ -25,7 +25,7 @@ export const handleAddToCart = async (productId: number, userId: number) => {
 	}
 };
 
-export const handleSetCartItemCount = async (productId: number, count: number) => {
+export const handleSetCartItemCount = async (productId: string, count: number) => {
 	try {
 		const currentCartItem = getCartItemByProductId(productId);
 		if (currentCartItem?.count !== count) {

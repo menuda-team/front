@@ -125,18 +125,6 @@
 		eventsQueue.add(event);
 	};
 
-	// добавляет &product_id=12312 в конец урла
-	const goToProduct = (product: Product) => {
-		const url = new URL(window.location.href);
-		url.searchParams.append('product_id', String(product.id));
-		history.pushState({ product }, null, url);
-	};
-
-	// стирает &product_id=12312 и пушит в стейт history null, чтобы сработала proxy на pushState
-	const backToMenu = () => {
-		history.back();
-	};
-
 	const openProductCard = (product) => {
 		disablePageScroll();
 		openedProduct = product;
@@ -145,6 +133,17 @@
 	const closeProductCard = () => {
 		enablePageScroll();
 		openedProduct = null;
+	};
+
+	// пушит в стейт history продукт, по которому кликнули
+	const goToProduct = (product: Product) => {
+		const url = new URL(window.location.href);
+		history.pushState({ product }, null, url);
+	};
+
+	// стирает &product_id=12312 и пушит в стейт history null, чтобы сработала proxy на pushState
+	const backToMenu = () => {
+		history.back();
 	};
 
 	onMount(() => {
@@ -164,7 +163,6 @@
 
 	onMount(() => {
 		const onPopState = () => {
-			console.log('popstates');
 			history.pushState(null, null, null);
 		};
 		window.addEventListener('popstate', onPopState);
@@ -174,8 +172,8 @@
 
 	// костыль, чтобы веб вью телеграма не закрывалась при закрытии шторки первых продуктов
 	onMount(() => {
-		window.Telegram?.WebApp.ready();
-		window.Telegram?.WebApp.expand();
+		Telegram.WebApp.ready();
+		Telegram.WebApp.expand();
 		setTimeout(() => {
 			window.scroll({ top: 1 });
 		}, 10);

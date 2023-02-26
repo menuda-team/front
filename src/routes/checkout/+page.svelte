@@ -26,7 +26,7 @@
 
 	const makeOrder = async () => {
 		console.log(inputValues);
-		await window.Telegram?.WebApp?.sendData(
+		await Telegram.WebApp?.sendData(
 			JSON.stringify({
 				event: 'payOrder',
 				data: {
@@ -35,7 +35,7 @@
 						count,
 						price: product.price,
 						name: product.name,
-						sale_price: product.sale_price
+						sale_price: product.salePrice
 					})),
 					totalAmount: ($cart as Cart).totalAmount
 				}
