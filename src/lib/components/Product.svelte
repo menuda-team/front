@@ -3,6 +3,7 @@
 	import cart from '$lib/stores/cart';
 	import { handleSetCartItemCount } from '$lib/handlers/cart';
 	import type { Cart, Product } from '$lib/types';
+	import { getUserId } from '$lib/stores/user';
 
 	export let product: Product;
 	export let closeProductCard = () => null;
@@ -10,9 +11,9 @@
 	let isAdded = false;
 	let count = 1;
 	$: {
-		isAdded = ($cart as Cart).items.some((item) => item.product_id === product._id);
+		isAdded = ($cart as Cart).items.some((item) => item.product._id === product._id);
 		if (isAdded) {
-			count = ($cart as Cart).items.find((item) => item.product_id === product._id).count;
+			count = ($cart as Cart).items.find((item) => item.product._id === product._id).count;
 		}
 	}
 
@@ -21,10 +22,12 @@
 
 	let loading = false;
 	const onActionButtonClick = async () => {
-		loading = true;
-		await handleSetCartItemCount(product._id, count);
-		loading = false;
-
+		const userId = getUserId();
+		if (userId) {
+			loading = true;
+			await handleSetCartItemCount(userId, product._id, count);
+			loading = false;
+		}
 		closeProductCard();
 	};
 

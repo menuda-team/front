@@ -58,7 +58,7 @@
 						<div class="text-xs mb-2.5 pr-4 pl-4 text-black3 dark:text-dark-gray">{product.weight} г</div>
 					</div>
 					<div class="mb-2 w-[calc(100%-30px)] mx-2">
-						<CartCounterButton productId={product.id} price={product.price} />
+						<CartCounterButton productId={product._id} price={product.price} />
 					</div>
 				</div>
 			{/each}

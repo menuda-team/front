@@ -7,16 +7,16 @@ import {
 } from '$lib/stores/cart';
 import type { Cart } from '$lib/types';
 
-export const handleFetchCart = async () => {
+export const handleFetchCart = async (userId: number) => {
 	try {
-		const cart = (await getCart()) as Cart;
+		const cart = (await getCart(userId)) as Cart;
 		updateCartIfChanged(cart);
 	} catch (err) {
 		console.error((err as Error).message);
 	}
 };
 
-export const handleAddToCart = async (productId: number, userId: number) => {
+export const handleAddToCart = async (productId: string, userId: number) => {
 	try {
 		const cartItem = await addToCart(productId, userId);
 		setCartItem(cartItem);
@@ -25,11 +25,11 @@ export const handleAddToCart = async (productId: number, userId: number) => {
 	}
 };
 
-export const handleSetCartItemCount = async (productId: string, count: number) => {
+export const handleSetCartItemCount = async (userId: number, productId: string, count: number) => {
 	try {
 		const currentCartItem = getCartItemByProductId(productId);
 		if (currentCartItem?.count !== count) {
-			const cartItem = await setCartItemCount(productId, count);
+			const cartItem = await setCartItemCount(userId, productId, count);
 			if (cartItem) {
 				setCartItem(cartItem);
 			} else {
@@ -41,9 +41,9 @@ export const handleSetCartItemCount = async (productId: string, count: number) =
 	}
 };
 
-export const handleRemoveFromCart = async (productId: number) => {
+export const handleRemoveFromCart = async (productId: string, userId: number) => {
 	try {
-		const cartItem = await removeOneItemFromCart(productId);
+		const cartItem = await removeOneItemFromCart(productId, userId);
 		if (cartItem) {
 			setCartItem(cartItem);
 		} else {

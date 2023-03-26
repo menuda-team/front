@@ -8,11 +8,11 @@ const cart = writable<Cart>({
 
 export const setCartItem = (cartItem: CartItem) => {
 	cart.update((cart) => {
-		const existedCartItem = cart.items.find((item) => item.product_id === cartItem.product_id);
+		const existedCartItem = cart.items.find((item) => item.product._id === cartItem.product._id);
 		if (existedCartItem) {
 			const diffCount = cartItem.count - existedCartItem.count;
 			return {
-				items: cart.items.map((item) => (item.product_id === cartItem.product_id ? cartItem : item)),
+				items: cart.items.map((item) => (item.product._id === cartItem.product._id ? cartItem : item)),
 				totalAmount: cart.totalAmount + diffCount * cartItem.product.price
 			};
 		}
@@ -25,10 +25,10 @@ export const setCartItem = (cartItem: CartItem) => {
 
 export const removeFromCart = (productId: string) => {
 	cart.update((cart) => {
-		const existedCartItem = cart.items.find((item) => item.product_id === productId);
+		const existedCartItem = cart.items.find((item) => item.product._id === productId);
 		if (existedCartItem) {
 			return {
-				items: cart.items.filter((item) => item.product_id !== productId),
+				items: cart.items.filter((item) => item.product._id !== productId),
 				totalAmount: cart.totalAmount - existedCartItem.product.price * existedCartItem.count
 			};
 		}
@@ -44,7 +44,7 @@ export const updateCartIfChanged = (updatedCart: Cart) => {
 
 export const getCartItemByProductId = (id: string) => {
 	const $cart = get(cart);
-	return $cart.items.find((item) => item.product_id === id);
+	return $cart.items.find((item) => item.product._id === id);
 };
 
 export default cart;

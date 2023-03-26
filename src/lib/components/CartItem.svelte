@@ -17,7 +17,7 @@
 			<div>
 				<div class="text-xxs text-black3 mb-2.5 dark:text-dark-gray">{item.product.weight} г</div>
 				<div class="w-[145px]">
-					<CartCounterButton productId={item.product_id} price={item.product.price} counterOnly={true} />
+					<CartCounterButton productId={item.product._id} price={item.product.price} counterOnly={true} />
 				</div>
 			</div>
 		</div>

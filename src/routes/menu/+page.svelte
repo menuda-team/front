@@ -138,7 +138,7 @@
 	// пушит в стейт history продукт, по которому кликнули
 	const goToProduct = (product: Product) => {
 		const url = new URL(window.location.href);
-		history.pushState({ product }, null, url);
+		history.pushState({ product }, '', url);
 	};
 
 	// стирает &product_id=12312 и пушит в стейт history null, чтобы сработала proxy на pushState
@@ -163,7 +163,7 @@
 
 	onMount(() => {
 		const onPopState = () => {
-			history.pushState(null, null, null);
+			history.pushState(null, '', null);
 		};
 		window.addEventListener('popstate', onPopState);
 
@@ -190,6 +190,8 @@
 	const MIN_SNIPPET_HEIGHT = 384;
 	const VISIBILITY_PERCENT = (MIN_SNIPPET_HEIGHT / window.innerHeight) * 100;
 	const LOAD_DATA_PERCENT = 10;
+
+	console.log('!!!$cart:', $cart);
 </script>
 
 <svelte:head>

@@ -37,11 +37,11 @@ export const load: Load = async ({ url }) => {
 		setUserIdInStore(userId);
 
 		// const isRegistered = await getIsRegistered(userId);
-		const isRegistered = true;
-
-		if (!isRegistered) {
-			await createUser(userId);
-		}
+		// const isRegistered = true;
+		//
+		// if (!isRegistered) {
+		// 	await createUser(userId);
+		// }
 	}
 
 	if (isAuth && !url.searchParams.get('user_id')) {

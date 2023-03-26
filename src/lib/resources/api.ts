@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Cart, Category, Product } from '$lib/types';
+import type { Cart, Category, Product, CartItem } from '$lib/types';
 import envVars from '../envVars.js';
 
 export const api = axios.create({
@@ -9,7 +9,7 @@ export const api = axios.create({
 const EMPTY_ARRAY = Object.freeze([]);
 const EMPTY_OBJECT = Object.freeze({});
 
-export const getProductsByCategory = (categoryId: number): Promise<Product[]> =>
+export const getProductsByCategory = (categoryId: string): Promise<Product[]> =>
 	api
 		.get(`/categories/${categoryId}/products`)
 		.then((res) => res.data)
@@ -43,36 +43,36 @@ export const getIsRegistered = (userId: number) =>
 			return false;
 		});
 
-export const addToCart = (productId: number, userId: number) =>
+export const addToCart = (productId: string, userId: number, count?: number): Promise<CartItem> =>
 	api
-		.post('/v1/cart/add', { user_id: userId, product_id: productId })
+		.patch(`/users/${userId}/cart/add`, { productId, count })
 		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);
 			return EMPTY_OBJECT;
 		});
 
-export const setCartItemCount = async (productId: number, count: number) =>
+export const setCartItemCount = async (userId: number, productId: string, count: number): Promise<CartItem> =>
 	api
-		.post('/v1/cart/set', { product_id: productId, count })
+		.patch(`/users/${userId}/cart/set`, { productId, count })
 		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);
 			return EMPTY_OBJECT;
 		});
 
-export const removeOneItemFromCart = (productId: number) =>
+export const removeOneItemFromCart = (productId: string, userId: number) =>
 	api
-		.delete(`/v1/cart/product/${productId}`)
+		.patch(`/users/${userId}/cart/remove`, { productId })
 		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);
 			return EMPTY_OBJECT;
 		});
 
-export const getCart = () =>
+export const getCart = (userId: number) =>
 	api
-		.get<Cart>('/v1/cart/list/')
+		.get<Cart>(`/users/${userId}/cart`)
 		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);

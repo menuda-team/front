@@ -13,8 +13,7 @@ export type Product = {
 export type CartItem = {
 	count: number;
 	product: Product;
-	product_id: string;
-	user_id?: string;
+	price: number;
 };
 
 export type Cart = {

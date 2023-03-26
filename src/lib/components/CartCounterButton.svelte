@@ -1,8 +1,8 @@
 <script lang="ts">
 	import cart from '$lib/stores/cart';
-	import user from '$lib/stores/user';
+	import { getUserId } from '$lib/stores/user';
 	import { handleAddToCart, handleRemoveFromCart } from '$lib/handlers/cart';
-	import type { Cart, User } from '$lib/types';
+	import type { Cart } from '$lib/types';
 	import Button from './Button.svelte';
 
 	export let productId;
@@ -11,26 +11,34 @@
 	let loading = false;
 
 	const onAddToCart = async (e) => {
-		loading = true;
 		e.preventDefault();
 		e.stopPropagation();
-		await handleAddToCart(productId, ($user as User).id);
-		loading = false;
+
+		const userId = getUserId();
+		if (userId) {
+			loading = true;
+			await handleAddToCart(productId, userId);
+			loading = false;
+		}
 	};
 	const onRemoveFromCart = async (e) => {
-		loading = true;
-		e.stopPropagation();
 		e.preventDefault();
-		await handleRemoveFromCart(productId);
-		loading = false;
+		e.stopPropagation();
+
+		const userId = getUserId();
+		if (userId) {
+			loading = true;
+			await handleRemoveFromCart(productId, userId);
+			loading = false;
+		}
 	};
 
 	let isAdded = false;
 	let count;
 	$: {
-		isAdded = ($cart as Cart).items.some((item) => item.product_id === productId);
+		isAdded = ($cart as Cart).items.some((item) => item.product._id === productId);
 		if (isAdded) {
-			count = ($cart as Cart).items.find((item) => item.product_id === productId).count;
+			count = ($cart as Cart).items.find((item) => item.product._id === productId).count;
 		}
 	}
 </script>

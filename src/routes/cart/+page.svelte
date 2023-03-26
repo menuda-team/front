@@ -43,30 +43,30 @@
 		});
 
 	const onCartButtonClick = async () => {
-		try {
-			const ws = await connect();
-			await ws.send(
-				JSON.stringify({
-					event: 'payOrder',
-					data: {
-						items: ($cart as Cart).items.map(({ product_id, count, product }) => ({
-							product_id,
-							count,
-							price: product.price,
-							name: product.name,
-							sale_price: product.salePrice
-						})),
-						totalAmount: ($cart as Cart).totalAmount,
-						comment
-					},
-					userId: ($user as User).id
-				})
-			);
-			Telegram.WebApp.close();
-		} catch (err) {
-			console.log('onCartButtonClick error');
-			console.log(err.name + ': ' + err.message);
-		}
+		// try {
+		// 	const ws = await connect();
+		// 	await ws.send(
+		// 		JSON.stringify({
+		// 			event: 'payOrder',
+		// 			data: {
+		// 				items: ($cart as Cart).items.map(({ product_id, count, product }) => ({
+		// 					product_id,
+		// 					count,
+		// 					price: product.price,
+		// 					name: product.name,
+		// 					sale_price: product.salePrice
+		// 				})),
+		// 				totalAmount: ($cart as Cart).totalAmount,
+		// 				comment
+		// 			},
+		// 			userId: ($user as User).id
+		// 		})
+		// 	);
+		// 	Telegram.WebApp.close();
+		// } catch (err) {
+		// 	console.log('onCartButtonClick error');
+		// 	console.log(err.name + ': ' + err.message);
+		// }
 	};
 </script>
 
