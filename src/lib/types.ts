@@ -1,3 +1,5 @@
+import type { INVOICE_STATUS_TYPES } from '$lib/constants';
+
 export type Product = {
 	name: string;
 	_id: string;
@@ -30,3 +32,12 @@ export type Category = {
 	name: string;
 	productsCount: number;
 };
+
+export type LabeledPrice = {
+	label: string;
+	amount: number;
+};
+
+export type Values<T> = T[keyof T];
+
+export type InvoiceStatusType = Values<typeof INVOICE_STATUS_TYPES>;

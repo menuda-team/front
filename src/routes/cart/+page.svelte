@@ -6,7 +6,9 @@
 	import { browser } from '$app/environment';
 	import CartItem from '$lib/components/CartItem.svelte';
 	import CartButton from '$lib/components/CartButton.svelte';
-	import type { Cart, User } from '$lib/types';
+	import type { Cart, User, InvoiceStatusType } from '$lib/types';
+	import { createInvoiceLink } from '$lib/resources/api';
+	import { INVOICE_STATUS_TYPES } from '$lib/constants';
 
 	$: if (($cart as Cart).items.length === 0 && browser) {
 		goto('/menu');
@@ -14,59 +16,24 @@
 
 	let comment = '';
 
-	const connect = async () =>
-		new Promise(function (resolve, reject) {
-			const ws = new WebSocket(`wss://socket.disht.ru?u=${($user as User).id}`);
-			ws.onopen = function () {
-				console.log('[WS] Соединение установленно');
-				resolve(ws);
-			};
-			ws.onerror = function () {
-				reject(ws);
-			};
-
-			ws.onclose = function (event) {
-				if (event.wasClean) {
-					console.log('[WS] Соединение закрыто чисто');
-				} else {
-					console.log('[WS] Соединение закрыто обрывом');
-					setTimeout(() => {
-						connect();
-					}, 1000);
-				}
-				console.log('[WS] Код события: ' + event.code + ' / ' + event.reason);
-			};
-
-			ws.onmessage = function (evt) {
-				console.log(evt);
-			};
-		});
-
 	const onCartButtonClick = async () => {
-		// try {
-		// 	const ws = await connect();
-		// 	await ws.send(
-		// 		JSON.stringify({
-		// 			event: 'payOrder',
-		// 			data: {
-		// 				items: ($cart as Cart).items.map(({ product_id, count, product }) => ({
-		// 					product_id,
-		// 					count,
-		// 					price: product.price,
-		// 					name: product.name,
-		// 					sale_price: product.salePrice
-		// 				})),
-		// 				totalAmount: ($cart as Cart).totalAmount,
-		// 				comment
-		// 			},
-		// 			userId: ($user as User).id
-		// 		})
-		// 	);
-		// 	Telegram.WebApp.close();
-		// } catch (err) {
-		// 	console.log('onCartButtonClick error');
-		// 	console.log(err.name + ': ' + err.message);
-		// }
+		const {link} = await createInvoiceLink(($cart as Cart).items.map(item => ({
+			label: item.product.name,
+			amount: item.product.price,
+		})));
+
+		Telegram.WebApp.openInvoice(link, (status: InvoiceStatusType) => {
+			switch (status) {
+				case INVOICE_STATUS_TYPES.PAID:
+					Telegram.WebApp.close();
+					break;
+				case INVOICE_STATUS_TYPES.FAILED:
+					Telegram.WebApp.HapticFeedback.notificationOccured('error');
+					break;
+				default:
+					Telegram.WebApp.HapticFeedback.notificationOccured('warning');
+			}
+		})
 	};
 </script>
 
