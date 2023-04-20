@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
 	import cart from '$lib/stores/cart';
-	import user from '$lib/stores/user';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import CartItem from '$lib/components/CartItem.svelte';
 	import CartButton from '$lib/components/CartButton.svelte';
-	import type { Cart, User, InvoiceStatusType } from '$lib/types';
+	import type { Cart, InvoiceStatusType } from '$lib/types';
 	import { createInvoiceLink } from '$lib/resources/api';
 	import { INVOICE_STATUS_TYPES } from '$lib/constants';
 
@@ -19,19 +18,20 @@
 	const onCartButtonClick = async () => {
 		const {link} = await createInvoiceLink(($cart as Cart).items.map(item => ({
 			label: item.product.name,
-			amount: item.product.price,
+			amount: item.product.price * item.count,
 		})));
 
 		Telegram.WebApp.openInvoice(link, (status: InvoiceStatusType) => {
+			console.log('!!!status:', status);
 			switch (status) {
 				case INVOICE_STATUS_TYPES.PAID:
 					Telegram.WebApp.close();
 					break;
 				case INVOICE_STATUS_TYPES.FAILED:
-					Telegram.WebApp.HapticFeedback.notificationOccured('error');
+					console.error('Payemnt has been failed');
 					break;
 				default:
-					Telegram.WebApp.HapticFeedback.notificationOccured('warning');
+					console.warn('Payemnt has been canceled');
 			}
 		})
 	};
