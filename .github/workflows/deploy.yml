@@ -1,0 +1,26 @@
+name: Deploy to yandex cloud VM
+on: 
+  push:
+    branches:
+      - main
+    
+jobs:
+  build:
+    name: Update and restart
+    runs-on: ubuntu-latest
+    steps:
+    - name: Pulling updates from git, build and restart app
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.FRONT_VM_IP }}
+        username: ${{ secrets.FRONT_VM_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        script: |
+          cd ./front
+          git pull origin main
+          export NVM_DIR=~/.nvm
+          source ~/.nvm/nvm.sh
+          npm install
+          npm run build
+          pm2 restart startup
