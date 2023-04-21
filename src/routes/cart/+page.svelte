@@ -6,8 +6,11 @@
 	import CartItem from '$lib/components/CartItem.svelte';
 	import CartButton from '$lib/components/CartButton.svelte';
 	import type { Cart, InvoiceStatusType } from '$lib/types';
-	import { createInvoiceLink } from '$lib/resources/api';
+	import { createInvoiceLink, createOrder } from '$lib/resources/api';
 	import { INVOICE_STATUS_TYPES } from '$lib/constants';
+	import { getUserId } from '$lib/stores/user';
+
+
 
 	$: if (($cart as Cart).items.length === 0 && browser) {
 		goto('/menu');
@@ -16,24 +19,31 @@
 	let comment = '';
 
 	const onCartButtonClick = async () => {
-		const {link} = await createInvoiceLink(($cart as Cart).items.map(item => ({
-			label: item.product.name,
-			amount: item.product.price * item.count,
-		})));
+		const userId = getUserId();
+		if (userId) {
+			const {link} = await createInvoiceLink(($cart as Cart).items.map(item => ({
+				label: item.product.name,
+				amount: item.product.price * item.count,
+			})));
 
-		Telegram.WebApp.openInvoice(link, (status: InvoiceStatusType) => {
-			console.log('!!!status:', status);
-			switch (status) {
-				case INVOICE_STATUS_TYPES.PAID:
-					Telegram.WebApp.close();
-					break;
-				case INVOICE_STATUS_TYPES.FAILED:
-					console.error('Payemnt has been failed');
-					break;
-				default:
-					console.warn('Payemnt has been canceled');
-			}
-		})
+			Telegram.WebApp.openInvoice(link, async (status: InvoiceStatusType) => {
+				switch (status) {
+					case INVOICE_STATUS_TYPES.PAID:
+						Telegram.WebApp.close();
+						await createOrder({
+							items: ($cart as Cart).items,
+							totalAmount: ($cart as Cart).totalAmount,
+							user: userId,
+						})
+						break;
+					case INVOICE_STATUS_TYPES.FAILED:
+						console.error('Payment has been failed');
+						break;
+					default:
+						console.warn('Payment has been canceled');
+				}
+			})
+		}
 	};
 </script>
 

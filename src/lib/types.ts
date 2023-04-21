@@ -38,6 +38,18 @@ export type LabeledPrice = {
 	amount: number;
 };
 
+export type OrderItem = {
+	count: number;
+	product: Product;
+	price: number;
+};
+
+export type Order = {
+	items: OrderItem[];
+	totalAmount: number;
+	user: number;
+};
+
 export type Values<T> = T[keyof T];
 
 export type InvoiceStatusType = Values<typeof INVOICE_STATUS_TYPES>;

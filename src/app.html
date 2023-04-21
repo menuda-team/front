@@ -15,10 +15,5 @@
 		if (theme === 'dark') {
 			document.querySelector('html').classList.add('dark');
 		}
-
-		// фиксит косяк телеги, которая с апреля 2023 внедрила api TelegramGameProxy в веб вьюшки
-		// window.TelegramGameProxy.receiveEvent = () => null;
-
-		window.Telegram.WebView.onEvent('')
 	</script>
 </html>
