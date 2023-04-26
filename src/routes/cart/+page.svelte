@@ -27,6 +27,7 @@
 			})));
 
 			Telegram.WebApp.openInvoice(link, async (status: InvoiceStatusType) => {
+				console.log('!!!status:', status);
 				switch (status) {
 					case INVOICE_STATUS_TYPES.PAID:
 						Telegram.WebApp.close();
