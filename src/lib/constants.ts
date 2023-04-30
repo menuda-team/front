@@ -5,5 +5,6 @@ export const MENU_EVENT_TYPES = {
 
 export const INVOICE_STATUS_TYPES = {
 	PAID: 'paid',
-	FAILED: 'failed'
+	FAILED: 'failed',
+	PENDING: 'pending'
 };

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Cart, Category, Product, CartItem, LabeledPrice, Order } from '$lib/types';
+import type { Cart, Category, Product, CartItem, CreateInvoiceLinkDto } from '$lib/types';
 import envVars from '../envVars.js';
 
 export const api = axios.create({
@@ -79,20 +79,20 @@ export const getCart = (userId: number) =>
 			return EMPTY_OBJECT;
 		});
 
-export const createInvoiceLink = (prices: LabeledPrice[]) =>
+export const createInvoiceLink = (body: { items: CartItem[] }) =>
 	api
-		.post<{ link: string }>(`/bot/createInvoiceLink`, { prices })
+		.post<{ link: string }>(`/bot/createInvoiceLink`, body)
 		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);
 			return EMPTY_OBJECT;
 		});
-
-export const createOrder = (body: Order) =>
-	api
-		.post<Order>(`/orders/create`, body)
-		.then((res) => res.data)
-		.catch((err) => {
-			console.error(err);
-			return EMPTY_OBJECT;
-		});
+//
+// export const createOrder = (body: Order) =>
+// 	api
+// 		.post<Order>(`/orders/create`, body)
+// 		.then((res) => res.data)
+// 		.catch((err) => {
+// 			console.error(err);
+// 			return EMPTY_OBJECT;
+// 		});
