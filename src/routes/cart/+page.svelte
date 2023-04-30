@@ -19,9 +19,10 @@
 	const onCartButtonClick = async () => {
 		const userId = getUserId();
 		if (userId) {
-			const {link} = await createInvoiceLink({
-				items: ($cart as Cart).items,
-			});
+			const {link} = await createInvoiceLink(($cart as Cart).items.map((item) => ({
+				label: item.product.name,
+				amount: item.product.price * item.count,
+			})));
 
 			Telegram.WebApp.openInvoice(link, async (status: InvoiceStatusType) => {
 				console.log('!!!status:', status);
@@ -29,11 +30,6 @@
 					case INVOICE_STATUS_TYPES.PENDING:
 					case INVOICE_STATUS_TYPES.PAID:
 						Telegram.WebApp.close();
-						// await createOrder({
-						// 	items: ($cart as Cart).items,
-						// 	totalAmount: ($cart as Cart).totalAmount,
-						// 	user: userId,
-						// })
 						break;
 					case INVOICE_STATUS_TYPES.FAILED:
 						console.error('Payment has been failed');
