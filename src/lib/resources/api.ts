@@ -66,7 +66,7 @@ export const getCart = (userId: number) =>
 
 export const createInvoiceLink = (prices: LabeledPrice[]) =>
 	api
-		.post<{ link: string }>(`/bot/createInvoiceLink`, { prices })
+		.post<{ link: string }>(`/bots/createInvoiceLink`, { prices })
 		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);
