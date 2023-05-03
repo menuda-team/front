@@ -24,7 +24,7 @@ export type Cart = {
 };
 
 export type User = {
-	id: number | null;
+	id?: number;
 };
 
 export type Category = {
