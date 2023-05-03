@@ -33,8 +33,8 @@ export const load: Load = async ({ url }) => {
 	api.interceptors.request.use((config) => ({
 		...config,
 		headers: {
-			userId,
-			botId
+			'user-id': userId,
+			'bot-id': botId
 		}
 	}));
 
