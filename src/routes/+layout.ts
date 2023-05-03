@@ -14,19 +14,19 @@ export const load: Load = async ({ url }) => {
 		userId = Telegram?.WebApp.initDataUnsafe.user?.id;
 
 		if (!userId) {
-			throw await error(401, 'userId is not found');
+			throw await error(401, 'user id is not found');
 		}
 
 		setUserIdInStore(userId);
 	}
 
-	let botId = url.searchParams.get('botId');
+	let botId = url.searchParams.get('bot-id');
 
 	if (browser) {
 		if (!botId) {
-			botId = window.sessionStorage.getItem('botId');
+			botId = window.sessionStorage.getItem('bot-id');
 		} else {
-			window.sessionStorage.setItem('botId', botId);
+			window.sessionStorage.setItem('bot-id', botId);
 		}
 	}
 

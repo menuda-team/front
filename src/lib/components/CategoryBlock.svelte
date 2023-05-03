@@ -10,7 +10,7 @@
 
 	export let category: string;
 	export let productsCount: number;
-	export let categoryId: number;
+	export let categoryId: string;
 	export let unobserve = () => null;
 	export let openProductCard = () => null;
 	export let isVisible: boolean;

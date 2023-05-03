@@ -11,7 +11,7 @@ const EMPTY_OBJECT = Object.freeze({});
 
 export const getProductsByCategory = (categoryId: string): Promise<Product[]> =>
 	api
-		.get(`/categories/${categoryId}/products`)
+		.get(`/bots/${categoryId}/products`)
 		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);
@@ -21,7 +21,7 @@ export const getProductsByCategory = (categoryId: string): Promise<Product[]> =>
 type GetCategoriesResult = Category[];
 export const getCategories = async () =>
 	api
-		.get<GetCategoriesResult>('/categories/list')
+		.get<GetCategoriesResult>('/bots/categories/list')
 		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);
