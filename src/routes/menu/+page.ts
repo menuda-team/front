@@ -9,7 +9,7 @@ export async function load() {
 	try {
 		const userId = getUserId();
 		const categories = await getCategories();
-		if (userId && get(cart).totalAmount === 0) {
+		if (userId && !get(cart)._id) {
 			await handleFetchCart(userId);
 		}
 		return {

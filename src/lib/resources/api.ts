@@ -28,27 +28,27 @@ export const getCategories = async () =>
 			return EMPTY_OBJECT;
 		});
 
-export const addToCart = (productId: string, userId: number, count?: number): Promise<CartItem> =>
+export const addToCart = (productId: string, cartId: string, count?: number): Promise<CartItem> =>
 	api
-		.patch(`/users/${userId}/cart/add`, { productId, count })
+		.patch(`/carts/${cartId}/add`, { productId, count })
 		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);
 			return EMPTY_OBJECT;
 		});
 
-export const setCartItemCount = async (userId: number, productId: string, count: number): Promise<CartItem> =>
+export const setCartItemCount = async (cartId: string, productId: string, count: number): Promise<CartItem> =>
 	api
-		.patch(`/users/${userId}/cart/set`, { productId, count })
+		.patch(`/carts/${cartId}/set`, { productId, count })
 		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);
 			return EMPTY_OBJECT;
 		});
 
-export const removeOneItemFromCart = (productId: string, userId: number) =>
+export const removeItemsFromCart = (productId: string, cartId: string, count: number) =>
 	api
-		.patch(`/users/${userId}/cart/remove`, { productId })
+		.patch(`/carts/${cartId}/remove`, { productId, count })
 		.then((res) => res.data)
 		.catch((err) => {
 			console.error(err);

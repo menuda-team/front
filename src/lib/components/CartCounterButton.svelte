@@ -1,6 +1,5 @@
 <script lang="ts">
 	import cart from '$lib/stores/cart';
-	import { getUserId } from '$lib/stores/user';
 	import { handleAddToCart, handleRemoveFromCart } from '$lib/handlers/cart';
 	import type { Cart } from '$lib/types';
 	import Button from './Button.svelte';
@@ -14,23 +13,17 @@
 		e.preventDefault();
 		e.stopPropagation();
 
-		const userId = getUserId();
-		if (userId) {
-			loading = true;
-			await handleAddToCart(productId, userId);
-			loading = false;
-		}
+		loading = true;
+		await handleAddToCart(productId, ($cart as Cart)._id);
+		loading = false;
 	};
 	const onRemoveFromCart = async (e) => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		const userId = getUserId();
-		if (userId) {
-			loading = true;
-			await handleRemoveFromCart(productId, userId);
-			loading = false;
-		}
+		loading = true;
+		await handleRemoveFromCart(productId, ($cart as Cart)._id);
+		loading = false;
 	};
 
 	let isAdded = false;

@@ -1,4 +1,4 @@
-import { addToCart, getCart, removeOneItemFromCart, setCartItemCount } from '$lib/resources/api';
+import { addToCart, getCart, setCartItemCount, removeItemsFromCart } from '$lib/resources/api';
 import {
 	getCartItemByProductId,
 	removeFromCart as removeFromCartStore,
@@ -16,20 +16,20 @@ export const handleFetchCart = async (userId: number) => {
 	}
 };
 
-export const handleAddToCart = async (productId: string, userId: number) => {
+export const handleAddToCart = async (productId: string, cartId: string, count = 1) => {
 	try {
-		const cartItem = await addToCart(productId, userId);
+		const cartItem = await addToCart(productId, cartId, count);
 		setCartItem(cartItem);
 	} catch (err) {
 		console.error((err as Error).message);
 	}
 };
 
-export const handleSetCartItemCount = async (userId: number, productId: string, count: number) => {
+export const handleSetCartItemCount = async (cartId: string, productId: string, count = 1) => {
 	try {
 		const currentCartItem = getCartItemByProductId(productId);
 		if (currentCartItem?.count !== count) {
-			const cartItem = await setCartItemCount(userId, productId, count);
+			const cartItem = await setCartItemCount(cartId, productId, count);
 			if (cartItem) {
 				setCartItem(cartItem);
 			} else {
@@ -41,9 +41,9 @@ export const handleSetCartItemCount = async (userId: number, productId: string, 
 	}
 };
 
-export const handleRemoveFromCart = async (productId: string, userId: number) => {
+export const handleRemoveFromCart = async (productId: string, cartId: string, count = 1) => {
 	try {
-		const cartItem = await removeOneItemFromCart(productId, userId);
+		const cartItem = await removeItemsFromCart(productId, cartId, count);
 		if (cartItem) {
 			setCartItem(cartItem);
 		} else {

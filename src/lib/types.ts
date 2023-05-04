@@ -19,6 +19,7 @@ export type CartItem = {
 };
 
 export type Cart = {
+	_id: string;
 	items: CartItem[];
 	totalAmount: number;
 };

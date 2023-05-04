@@ -1,9 +1,10 @@
 import { writable, get } from 'svelte/store';
 import type { Cart, CartItem } from '$lib/types';
 
-const cart = writable<Cart>({
+const cart = writable<Omit<Cart, '_id'> & { _id?: string }>({
 	items: [],
-	totalAmount: 0
+	totalAmount: 0,
+	_id: undefined
 });
 
 export const setCartItem = (cartItem: CartItem) => {
@@ -12,11 +13,13 @@ export const setCartItem = (cartItem: CartItem) => {
 		if (existedCartItem) {
 			const diffCount = cartItem.count - existedCartItem.count;
 			return {
+				...cart,
 				items: cart.items.map((item) => (item.product._id === cartItem.product._id ? cartItem : item)),
 				totalAmount: cart.totalAmount + diffCount * cartItem.product.price
 			};
 		}
 		return {
+			...cart,
 			items: [...cart.items, cartItem],
 			totalAmount: cart.totalAmount + cartItem.count * cartItem.product.price
 		};
@@ -28,6 +31,7 @@ export const removeFromCart = (productId: string) => {
 		const existedCartItem = cart.items.find((item) => item.product._id === productId);
 		if (existedCartItem) {
 			return {
+				...cart,
 				items: cart.items.filter((item) => item.product._id !== productId),
 				totalAmount: cart.totalAmount - existedCartItem.product.price * existedCartItem.count
 			};
@@ -37,7 +41,7 @@ export const removeFromCart = (productId: string) => {
 };
 
 export const updateCartIfChanged = (updatedCart: Cart) => {
-	if (get(cart).totalAmount !== updatedCart.totalAmount) {
+	if (get(cart).totalAmount !== updatedCart.totalAmount || get(cart)._id !== updatedCart._id) {
 		cart.set(updatedCart);
 	}
 };
