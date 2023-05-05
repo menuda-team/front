@@ -16,16 +16,17 @@
 
 	let comment = '';
 
+	const createProductLabel = (name, count) => name + ' x' + count;
+
 	const onCartButtonClick = async () => {
 		const userId = getUserId();
 		if (userId) {
-			const {link} = await createInvoiceLink(($cart as Cart).items.map((item) => ({
-				label: item.product.name,
-				amount: item.product.price * item.count,
+			const {link} = await createInvoiceLink(($cart as Cart).items.map(({product, count}) => ({
+				label: createProductLabel(product.name, count),
+				amount: product.price * count,
 			})));
 
 			Telegram.WebApp.openInvoice(link, async (status: InvoiceStatusType) => {
-				console.log('!!!status:', status);
 				switch (status) {
 					case INVOICE_STATUS_TYPES.PENDING:
 					case INVOICE_STATUS_TYPES.PAID:
