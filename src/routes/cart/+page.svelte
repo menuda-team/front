@@ -9,6 +9,7 @@
 	import { createInvoiceLink } from '$lib/resources/api';
 	import { INVOICE_STATUS_TYPES } from '$lib/constants';
 	import { getUserId } from '$lib/stores/user';
+	import envVars from '$lib/envVars';
 
 	$: if (($cart as Cart).items.length === 0 && browser) {
 		goto('/menu');
@@ -60,17 +61,24 @@
 				<CartItem {item} />
 			{/each}
 		</div>
-		<h1 class="text-xxl font-semibold mb-5 dark:text-white">Комментарий к заказу</h1>
-		<textarea
-			name=""
-			rows="5"
-			placeholder="Погорячее и побольше салфеток"
-			class="rounded bg-bg-gray dark:bg-dark-black2 w-full py-4 px-5
-										text-xbase placeholder:text-black3 dark:placeholder:text-dark-gray
-										focus:outline-none mb-10 resize-none dark:text-white"
-			bind:value={comment}></textarea>
-		<div class="fixed bottom-0 left-0 right-0">
-			<CartButton actionText="Оформить заказ" totalAmount={$cart.totalAmount} action={onCartButtonClick} />
-		</div>
+		{#if envVars.checkoutIsEnabled === true}
+			<h1 class="text-xxl font-semibold mb-5 dark:text-white">Комментарий к заказу</h1>
+			<textarea
+				name=""
+				rows="5"
+				placeholder="Погорячее и побольше салфеток"
+				class="rounded bg-bg-gray dark:bg-dark-black2 w-full py-4 px-5
+											text-xbase placeholder:text-black3 dark:placeholder:text-dark-gray
+											focus:outline-none mb-10 resize-none dark:text-white"
+				bind:value={comment}></textarea>
+			<div class="fixed bottom-0 left-0 right-0">
+				<CartButton actionText="Оформить заказ" totalAmount={$cart.totalAmount} action={onCartButtonClick} />
+			</div>
+			{:else}
+			<div class="fixed bottom-0 left-0 right-0">
+				<CartButton totalAmount={$cart.totalAmount} />
+			</div>
+		{/if}
+
 	</div>
 {/if}
