@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,6 +10,9 @@
 		<div>%sveltekit.body%</div>
 	</body>
 	<script>
+		// хак, что телеграм не падал из-за undefined is not an object
+		window.TelegramGameProxy.receiveEvent = null;
+
 		const theme = window.Telegram?.WebApp.colorScheme;
 
 		if (theme === 'dark') {
