@@ -10,9 +10,6 @@
 		<div>%sveltekit.body%</div>
 	</body>
 	<script>
-		// хак, что телеграм не падал из-за undefined is not an object
-		window.TelegramGameProxy.receiveEvent = null;
-
 		const theme = window.Telegram?.WebApp.colorScheme;
 
 		if (theme === 'dark') {
