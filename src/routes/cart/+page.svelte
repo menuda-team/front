@@ -61,7 +61,7 @@
 				<CartItem {item} />
 			{/each}
 		</div>
-		{#if envVars.checkoutIsEnabled === true}
+		{#if envVars.checkoutIsEnabled === 'true'}
 			<h1 class="text-xxl font-semibold mb-5 dark:text-white">Комментарий к заказу</h1>
 			<textarea
 				name=""

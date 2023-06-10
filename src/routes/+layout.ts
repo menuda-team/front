@@ -1,4 +1,3 @@
-// TODO: настроить prettier
 import type { Load } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 import { api } from '$lib/resources/api.js';
