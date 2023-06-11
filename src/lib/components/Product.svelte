@@ -63,7 +63,7 @@
 					{product.name}
 				</div>
 				<div class="mt-1 text-m text-black3 dark:text-dark-gray">
-					{product.weight}
+					{product.weight} г
 				</div>
 				<div class="mt-5 text-xbase text-black2 dark:text-dark-gray">
 					{product.description}
